@@ -1,9 +1,5 @@
 RSpec.describe TinyFactory do
-  it "has a version number" do
-    expect(TinyFactory::VERSION).not_to be nil
-  end
-
-  before do
+  before(:all) do
     described_class.define :user do
       first_name { "John" }
       last_name { "Doe" }
@@ -11,8 +7,12 @@ RSpec.describe TinyFactory do
     end
   end
 
+  it "has a version number" do
+    expect(TinyFactory::VERSION).not_to be nil
+  end
+
   describe ".attributes_for" do
-    subject(:attributes) { described_class.attributes_for(:user) }
+    subject(:attributes) { attributes_for(:user) }
 
     it "creates a hash of attributes" do
       expect(attributes).to be_kind_of(Hash)
@@ -24,11 +24,11 @@ RSpec.describe TinyFactory do
   end
 
   describe ".build" do
-    subject(:user) { described_class.build(:user) }
+    subject(:user) { build(:user) }
 
     it "builds a user" do
-      expect(:user).to be_kind_of(User)
-      expect(:user.new_record?).to be_truthy
+      expect(user).to be_kind_of(User)
+      expect(user.new_record?).to be_truthy
 
       expect(user.first_name).to eq("John")
       expect(user.last_name).to eq("Doe")
@@ -37,11 +37,11 @@ RSpec.describe TinyFactory do
   end
 
   describe ".create" do
-    subject(:user) { described_class.create(:user) }
+    subject(:user) { create(:user) }
 
     it "creates a persisted user" do
-      expect(:user).to be_kind_of(User)
-      expect(:user.persisted?).to be_truthy
+      expect(user).to be_kind_of(User)
+      expect(user.persisted?).to be_truthy
 
       expect(user.first_name).to eq("John")
       expect(user.last_name).to eq("Doe")
